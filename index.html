@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Rabbit Project — Revival</title>
+<meta name="description" content="Reviving The Rabbit Project — the abandoned idle game — as a story and TV series.">
+<style>
+  :root{
+    --soil:#17120e;
+    --burrow:#241b14;
+    --burrow-2:#2e2318;
+    --carrot:#e8722a;
+    --carrot-deep:#c55a17;
+    --leaf:#7fa65a;
+    --bone:#e9dfd2;
+    --bone-2:#f4ede1;
+    --ash:#9c8e7e;
+
+    --bg:var(--bone);
+    --bg-raised:var(--bone-2);
+    --ink:#241b14;
+    --ink-soft:#5c5045;
+    --line:#d8cbb8;
+    --accent:var(--carrot-deep);
+    --accent-soft:rgba(197,90,23,.12);
+    --leaf-ink:#587a3a;
+    --log-bg:#1d1610;
+    --log-ink:#d8c9b4;
+
+    --serif:"Charter","Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:var(--soil);
+      --bg-raised:var(--burrow);
+      --ink:var(--bone);
+      --ink-soft:var(--ash);
+      --line:#3a2e20;
+      --accent:var(--carrot);
+      --accent-soft:rgba(232,114,42,.14);
+      --leaf-ink:var(--leaf);
+      --log-bg:#100c08;
+      --log-ink:#cbbda6;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--soil);
+    --bg-raised:var(--burrow);
+    --ink:var(--bone);
+    --ink-soft:var(--ash);
+    --line:#3a2e20;
+    --accent:var(--carrot);
+    --accent-soft:rgba(232,114,42,.14);
+    --leaf-ink:var(--leaf);
+    --log-bg:#100c08;
+    --log-ink:#cbbda6;
+  }
+  :root[data-theme="light"]{
+    --bg:var(--bone);
+    --bg-raised:var(--bone-2);
+    --ink:#241b14;
+    --ink-soft:#5c5045;
+    --line:#d8cbb8;
+    --accent:var(--carrot-deep);
+    --accent-soft:rgba(197,90,23,.12);
+    --leaf-ink:#587a3a;
+    --log-bg:#1d1610;
+    --log-ink:#d8c9b4;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:1.0625rem;
+    line-height:1.65;
+  }
+  a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+  .prose{max-width:42rem}
+  section{padding:4.5rem 0;border-top:1px solid var(--line)}
+  h1,h2,h3{text-wrap:balance;line-height:1.12;margin:0 0 1rem;font-weight:700}
+  h2{font-size:clamp(1.7rem,3.5vw,2.4rem);letter-spacing:-.01em}
+  h3{font-size:1.15rem}
+  p{margin:0 0 1rem}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 .9rem;
+  }
+  .muted{color:var(--ink-soft)}
+  .mono{font-family:var(--mono)}
+
+  /* ---------- hero ---------- */
+  header.hero{padding:5rem 0 4rem;border-top:none}
+  .log{
+    background:var(--log-bg);
+    color:var(--log-ink);
+    font-family:var(--mono);
+    font-size:.8rem;
+    line-height:1.9;
+    border-radius:6px;
+    padding:1.1rem 1.3rem;
+    max-width:34rem;
+    overflow-x:auto;
+    border:1px solid rgba(232,114,42,.25);
+    box-shadow:0 0 60px rgba(232,114,42,.07);
+  }
+  .log .t{color:#8a7a63}
+  .log .ok{color:#9dbb7d}
+  .log .warn{color:#e8a02a}
+  .log .err{color:#e8722a}
+  .log-line{opacity:0;animation:logfade .01s linear forwards}
+  .log-line:nth-child(1){animation-delay:.2s}
+  .log-line:nth-child(2){animation-delay:.9s}
+  .log-line:nth-child(3){animation-delay:1.6s}
+  .log-line:nth-child(4){animation-delay:2.5s}
+  .log-line:nth-child(5){animation-delay:3.4s}
+  .log-line:nth-child(6){animation-delay:4.6s}
+  @keyframes logfade{to{opacity:1}}
+  @media (prefers-reduced-motion: reduce){.log-line{opacity:1}}
+
+  .hero h1{
+    font-size:clamp(2.6rem,7vw,4.6rem);
+    letter-spacing:-.02em;
+    margin:2.2rem 0 .6rem;
+  }
+  .hero h1 .carrot{color:var(--accent)}
+  .hero .dek{
+    font-size:clamp(1.05rem,2vw,1.3rem);
+    max-width:36rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  figure.banner{margin:2.5rem 0 0}
+  figure.banner img{
+    width:100%;height:auto;display:block;
+    border-radius:10px;border:1px solid var(--line);
+  }
+  figure.banner figcaption,
+  .gallery figcaption,
+  figure.clubart figcaption{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;
+    color:var(--ink-soft);margin-top:.6rem;
+  }
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:1rem;margin-top:2rem}
+  .gallery figure{margin:0}
+  .gallery img{width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--line)}
+  figure.clubart{margin:2rem 0 0;max-width:26rem}
+  figure.clubart img{width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--line)}
+
+  /* ---------- canon quote ---------- */
+  blockquote.canon{
+    margin:2rem 0;
+    padding:1.4rem 1.6rem;
+    background:var(--bg-raised);
+    border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0;
+    font-size:1.12rem;
+    font-style:italic;
+  }
+  blockquote.canon footer{
+    font-style:normal;
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin-top:.8rem;
+  }
+
+  /* ---------- location cards ---------- */
+  .locations{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));
+    gap:1rem;
+    margin-top:2rem;
+  }
+  .loc{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.4rem 1.4rem 1.2rem;
+    display:flex;
+    flex-direction:column;
+    gap:.55rem;
+  }
+  .loc svg{width:44px;height:44px;flex:none}
+  .loc h3{margin:0}
+  .loc .fn{
+    font-family:var(--mono);
+    font-size:.7rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .loc p{margin:0;font-size:.95rem;color:var(--ink-soft)}
+  .loc .as-set{
+    margin-top:auto;
+    padding-top:.75rem;
+    border-top:1px dashed var(--line);
+    font-size:.9rem;
+    color:var(--ink);
+  }
+  .loc .as-set strong{color:var(--leaf-ink)}
+
+  /* ---------- pitch ---------- */
+  .logline{
+    font-size:clamp(1.25rem,2.6vw,1.7rem);
+    line-height:1.45;
+    font-style:italic;
+    max-width:44rem;
+    margin:1.5rem 0 2rem;
+  }
+  .logline em{color:var(--accent);font-style:italic}
+  .cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:1rem;margin:1.5rem 0}
+  .cast .who{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:1.2rem 1.3rem;
+  }
+  .cast .who h3{margin-bottom:.15rem}
+  .cast .who .role{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf-ink)}
+  .cast .who p{margin:.6rem 0 0;font-size:.93rem;color:var(--ink-soft)}
+
+  .eps{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:.65rem;max-width:44rem}
+  .eps li{
+    display:grid;
+    grid-template-columns:3.2rem 1fr;
+    gap:1rem;
+    padding:.85rem 1rem;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:.97rem;
+  }
+  .eps .n{font-family:var(--mono);font-size:.75rem;color:var(--accent);padding-top:.25rem}
+  .eps strong{display:block}
+  .eps span{color:var(--ink-soft);font-size:.92rem}
+
+  /* ---------- archive ---------- */
+  table{border-collapse:collapse;width:100%;font-size:.92rem}
+  .tablewrap{overflow-x:auto;margin:1.4rem 0;border:1px solid var(--line);border-radius:8px}
+  th,td{text-align:left;padding:.65rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  th{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);background:var(--bg-raised)}
+  td .status{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;
+    padding:.15rem .5rem;border-radius:99px;white-space:nowrap;
+  }
+  .status.dead{background:var(--accent-soft);color:var(--accent)}
+  .status.trace{background:rgba(127,166,90,.15);color:var(--leaf-ink)}
+
+  /* ---------- roadmap ---------- */
+  .steps{counter-reset:step;list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:.9rem;max-width:42rem}
+  .steps li{display:grid;grid-template-columns:2.2rem 1fr;gap:.9rem;align-items:baseline}
+  .steps li::before{
+    counter-increment:step;
+    content:counter(step,decimal-leading-zero);
+    font-family:var(--mono);
+    font-size:.8rem;
+    color:var(--accent);
+  }
+  .steps strong{display:block}
+  .steps span{color:var(--ink-soft);font-size:.94rem}
+
+  footer.site{
+    border-top:1px solid var(--line);
+    padding:2.5rem 0 3.5rem;
+    font-size:.85rem;
+    color:var(--ink-soft);
+  }
+  footer.site .mono{font-size:.72rem;letter-spacing:.08em}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="log" role="img" aria-label="Recovered server log: the last heartbeat of rabbit.game before the world went quiet.">
+      <div class="log-line"><span class="t">[03:14:07]</span> <span class="ok">OK</span>&nbsp;&nbsp;raid_party #4471 returned · +214 $CARROT · 2 injured</div>
+      <div class="log-line"><span class="t">[03:14:11]</span> <span class="ok">OK</span>&nbsp;&nbsp;hospital queue: 2 rabbits admitted</div>
+      <div class="log-line"><span class="t">[03:14:52]</span> <span class="warn">WARN</span> active players: 0 · idle loop continuing</div>
+      <div class="log-line"><span class="t">[03:15:00]</span> <span class="warn">WARN</span> last human login: 619 days ago</div>
+      <div class="log-line"><span class="t">[03:15:04]</span> <span class="err">ERR</span>&nbsp; upstream unreachable · rabbit.game: NXDOMAIN</div>
+      <div class="log-line"><span class="t">[03:15:04]</span> <span class="err">&gt;</span>&nbsp;&nbsp;the rabbits kept working anyway<span aria-hidden="true">▌</span></div>
+    </div>
+
+    <h1>The <span class="carrot">Rabbit</span> Project</h1>
+    <p class="dek">An idle game whose players vanished. A world that never stopped grinding.
+    Now revived — as a story, and a television series.</p>
+
+    <figure class="banner">
+      <img src="assets/banner.jpg" alt="Recovered original banner art: cartoon rabbits in medieval gear — a cloaked spear-carrier, an armored knight with sword and shield, and a rabbit fishing with a carrot lure by a campfire — outside a walled city across a river, under the red-and-green Rabbit Project wordmark.">
+      <figcaption>Recovered: the game's original banner art. Patched cloaks, borrowed armor, a carrot on a fishing line — the whole show is already in this image.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+  <section id="what-it-was">
+    <div class="wrap">
+      <p class="eyebrow">Recovered canon · what the game was</p>
+      <h2>A world built to run without us</h2>
+      <div class="prose">
+        <p>Somewhere around the play-to-earn boom, a small team shipped a game at
+        <span class="mono">rabbit.game</span>. It was an idle game — the kind you check twice
+        a day — where every rabbit was a unique, ownable character sent into dungeons to
+        dig up a currency called <strong>$CARROT</strong>.</p>
+
+        <blockquote class="canon">
+          "The Rabbit Project is an idle game with built-in chat and trade system, where
+          players control unique NFT characters to explore dungeons, collect $CARROT and
+          engage in various activities to enhance their characters and clans."
+          <footer>— official description, recovered from the project's documentation (gitbook.rabbit.game, now offline)</footer>
+        </blockquote>
+
+        <p>The goal was to build a powerful <strong>clan</strong>: level your rabbits, run
+        clan activities, and optimize dungeon clears to maximize $CARROT. Rabbits came home
+        from raids injured and had to be patched up before going back down. Gems came up
+        out of the World Map and went into the Blacksmith's forge.</p>
+
+        <blockquote class="canon">
+          "Players can purchase unique rabbits with varying traits, such as colors and
+          patterns, and breed them to create new and rare rabbits… with players able to
+          participate in rabbit races and other challenges to earn rewards."
+          <footer>— CryptoGames review (full page preserved in this repo's <span class="mono">archive/</span>)</footer>
+        </blockquote>
+
+        <p>The rabbits were bred with unique traits — colors, patterns — and raced each
+        other in challenges. It lived in the browser, on the <strong>Sei blockchain</strong>
+        (the game's Twitter was <a href="https://twitter.com/RabbitsOnSei">@RabbitsOnSei</a>),
+        with a token CoinGecko indexed as <span class="mono">the-rabbit-project</span>.</p>
+
+        <p>Then, the way these things go, the players drifted off. The domains lapsed.
+        The documentation survives only as fragments in search-engine indexes — which is
+        where this canon was recovered from. The premise of the show is the part nobody
+        wrote down: <em>the world was designed to keep idling whether anyone watched or
+        not.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="world">
+    <div class="wrap">
+      <p class="eyebrow">Recovered canon · the five locations</p>
+      <h2>The world map is the set list</h2>
+      <p class="prose muted">Every location below is documented, original game canon.
+      Each one maps directly onto a standing set for the series.</p>
+
+      <div class="locations">
+        <div class="loc">
+          <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <rect x="7" y="12" width="30" height="24" rx="3" stroke="var(--accent)" stroke-width="2"/>
+            <path d="M22 18v12M16 24h12" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+          <div class="fn">Hospital</div>
+          <h3>The Hospital</h3>
+          <p>Fix up your injured rabbits by paying with $CARROT.</p>
+          <div class="as-set"><strong>As a set:</strong> the moral center — where the cost of the grind is visible in bandages.</div>
+        </div>
+
+        <div class="loc">
+          <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <path d="M10 10l9 9M34 10l-9 9M13 31l18-18M31 31L13 13" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 36h28" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="fn">Arena</div>
+          <h3>The Arena</h3>
+          <p>Let your rabbits battle it out with other clans.</p>
+          <div class="as-set"><strong>As a set:</strong> spectacle without spectators — who is the fighting for now?</div>
+        </div>
+
+        <div class="loc">
+          <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <path d="M8 36V18l14-9 14 9v18" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M18 36v-9h8v9M8 36h28" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          <div class="fn">Main Building</div>
+          <h3>The Main Building</h3>
+          <p>Arrange and set up your clans here.</p>
+          <div class="as-set"><strong>As a set:</strong> the seat of clan politics — rosters, rivalries, and empty player thrones.</div>
+        </div>
+
+        <div class="loc">
+          <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <path d="M12 30l12-12 4-8 4 4-8 4-12 12z" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M9 35l5-5M26 26l6 6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <div class="fn">Blacksmith</div>
+          <h3>The Blacksmith</h3>
+          <p>Craft and upgrade items using $CARROT and types of gems.</p>
+          <div class="as-set"><strong>As a set:</strong> the keeper of gems and grudges — the forge remembers every raid.</div>
+        </div>
+
+        <div class="loc">
+          <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+            <path d="M8 12l9-4 10 4 9-4v24l-9 4-10-4-9 4V12z" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M17 8v24M27 12v24" stroke="var(--accent)" stroke-width="1.4"/>
+            <circle cx="31" cy="19" r="2" fill="var(--accent)"/>
+          </svg>
+          <div class="fn">World Map</div>
+          <h3>The World Map</h3>
+          <p>Send rabbits on raids to earn $CARROT and gems.</p>
+          <div class="as-set"><strong>As a set:</strong> the frontier — and the edge of the map is where the story goes.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pitch">
+    <div class="wrap">
+      <p class="eyebrow">The revival · series treatment</p>
+      <h2>The show: what happens to a world when everyone logs off?</h2>
+
+      <p class="logline">When the last player stops logging in, a young raid-runner
+      discovers the truth her clan was built to never ask — <em>the carrots don't go
+      anywhere anymore</em> — and leads a working world of rabbits to the edge of its
+      own map to find out who it was all for.</p>
+
+      <div class="prose">
+        <p><strong>Format:</strong> half-hour animated series. Warm, painterly, lantern-lit
+        underground world; the tone sits between <em>Wreck-It Ralph</em>'s inside-the-game
+        logic and <em>Watership Down</em>'s earnest stakes — comedy on the surface, quiet
+        existential engine underneath.</p>
+        <p>Every mechanic of the original game becomes lived-in culture: the injury system
+        is the Hospital's endless night shift, the clan system is politics and family,
+        $CARROT is wage and religion at once, and the "idle loop" is the show's central
+        question — the rabbits work whether anyone is watching or not. It's a workplace
+        comedy that slowly reveals itself as a story about purpose after abandonment.</p>
+      </div>
+
+      <h3 style="margin-top:2.5rem">The clan</h3>
+      <div class="cast">
+        <div class="who">
+          <div class="role">Raid-runner · protagonist</div>
+          <h3>Wick</h3>
+          <p>Fastest dungeon-clearer in the clan, obsessed with optimizing $CARROT yield —
+          until she notices the counters have stopped counting for anyone. The first rabbit
+          to say "no one is watching" out loud.</p>
+        </div>
+        <div class="who">
+          <div class="role">Hospital medic</div>
+          <h3>Gauze</h3>
+          <p>Runs the Hospital and its ledger of injuries. Charges $CARROT because the rules
+          say so; treats everyone anyway. Keeps a private list of rabbits who never came
+          back from the World Map.</p>
+        </div>
+        <div class="who">
+          <div class="role">Blacksmith</div>
+          <h3>Mater</h3>
+          <p>Old forge-rabbit who hoards gems by type and swears the players will return.
+          Remembers "the Days of Login" like a golden age. The revival's biggest skeptic —
+          and its deepest believer.</p>
+        </div>
+        <div class="who">
+          <div class="role">Arena champion</div>
+          <h3>Brindle</h3>
+          <p>Undefeated in inter-clan battle, performing nightly to an arena of empty seats.
+          Refuses to admit the crowds are gone. His slow acceptance is the show's most
+          human arc — in a rabbit.</p>
+        </div>
+        <div class="who">
+          <div class="role">Clan-keeper · Main Building</div>
+          <h3>The Warren-Mother</h3>
+          <p>Arranges the clans from the Main Building the way she always has. Knows more
+          about the vanished players than she lets on — she was the first rabbit ever
+          minted.</p>
+        </div>
+        <div class="who">
+          <div class="role">The antagonist that isn't a villain</div>
+          <h3>The Loop</h3>
+          <p>The idle system itself: quotas, timers, respawning dungeons. It isn't evil —
+          it's just still running. The question of season one is whether to keep feeding
+          it, break it, or learn to own it.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:2rem">Season one — "Idle"</h3>
+      <ul class="eps">
+        <li><div class="n">E01</div><div><strong>Daily Quota</strong><span>A perfect day in the warren, told entirely through the grind — raids out, carrots in, injuries healed. Only in the final shot do we see the empty player thrones above.</span></div></li>
+        <li><div class="n">E02</div><div><strong>Two Injured</strong><span>Wick's raid party comes back hurt and the Hospital bill doesn't add up: the $CARROT they pay never leaves the vault. Gauze shows her the ledger. Nothing leaves. Nothing has left for a long time.</span></div></li>
+        <li><div class="n">E03</div><div><strong>The Days of Login</strong><span>Mater's forge-tale of the golden age — told as legend, seen by us as flashback: chat windows blazing, trades flying, thousands of names online. The gap between his myth and the truth.</span></div></li>
+        <li><div class="n">E04</div><div><strong>House Full</strong><span>Brindle's arena special. The clans stage the greatest battle in warren history to "bring the watchers back." A ratings-night episode where the rating is zero.</span></div></li>
+        <li><div class="n">E05</div><div><strong>The Warren-Mother's Key</strong><span>Wick confronts the first-minted rabbit, who reveals what she's guarded since the beginning: the way the world was made — and the door in the Main Building nobody has clearance to open.</span></div></li>
+        <li><div class="n">E06</div><div><strong>Edge of the Map</strong><span>Season finale. Wick leads a raid past the last dungeon to the border of the World Map, where the render stops. The clan votes: keep the loop, or cross it. They cross.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="partner">
+    <div class="wrap">
+      <p class="eyebrow">The partner · a living warren</p>
+      <h2>The Rabbit's Club: the community that could tell this story</h2>
+      <div class="prose">
+        <p>The Rabbit Project's world is recovered, but its community is gone. There is,
+        however, a living one: <a href="https://x.com/TheRabbit_Club">The Rabbit's Club</a>
+        — a collection of <strong>2,250 hand-drawn rabbits</strong> on Ethereum (launched
+        May 31, 2024, featured by the
+        <a href="https://nftdesignawards.io/project/the-rabbits-club">NFT Design Awards</a>),
+        whose whole identity is <strong>folklore</strong>: the origins, lifestyles, and
+        legends of rabbits across cultures worldwide.</p>
+        <p>Crucially, they already tell stories the way a writers' room does: holders
+        interact with <strong>the Storyteller</strong>, a narrator figure who develops the
+        collection's lore with the community — theories, discussions, canon built in
+        public. That is exactly the machinery a revived Rabbit Project needs.</p>
+        <p>The crossover conceit writes itself: <em>the legend of the abandoned warren —
+        a world of working rabbits whose gods stopped watching — becomes a tale the
+        Storyteller tells.</em> Their folklore frames our world; the show opens in their
+        voice.</p>
+      </div>
+      <figure class="clubart">
+        <img src="assets/rabbits-club-art.webp" alt="The Rabbit's Club artwork: a hand-drawn grey rabbit sitting alone on a dark shore at sunset, smoke curling from its paw, watching the sea.">
+        <figcaption>The Rabbit's Club — a rabbit at the end of the day, watching the water. Their register already matches the show's.</figcaption>
+      </figure>
+      <div class="cast">
+        <div class="who">
+          <div class="role">What they bring</div>
+          <h3>Art &amp; audience</h3>
+          <p>2,250 hand-drawn characters, an award-listed visual identity, and a community
+          trained to co-write lore with the Storyteller.</p>
+        </div>
+        <div class="who">
+          <div class="role">What we bring</div>
+          <h3>World &amp; premise</h3>
+          <p>A recovered world with real mechanics-as-culture — clans, raids, $CARROT,
+          the Hospital's night shift — and a series treatment with a hook: everyone
+          logged off.</p>
+        </div>
+        <div class="who">
+          <div class="role">The shape of the deal</div>
+          <h3>Co-development</h3>
+          <p>Storyteller as the show's narrator and framing device; Club holders as
+          founding community; character cameos from the collection; co-owned story
+          bible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="archive">
+    <div class="wrap">
+      <p class="eyebrow">The archive · what survived</p>
+      <h2>Everything that's left, in one place</h2>
+      <div class="prose">
+        <p>This revival is built on the recoverable record. The original domains are dead,
+        but complete saved copies of both surviving listings — artwork included — are
+        preserved in this repo's <span class="mono">archive/</span> folder, and the game's
+        documentation survives in search-engine indexes. The full dossier lives in
+        <a href="research/RESEARCH.md" class="mono">research/RESEARCH.md</a>.</p>
+      </div>
+
+      <div class="gallery">
+        <figure>
+          <img src="assets/logo.jpg" alt="Recovered original logo: a cartoon orange carrot crossed with a sword, on parchment.">
+          <figcaption>The emblem — a carrot crossed with a sword</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/icon-mono.jpg" alt="Recovered monochrome icon: the crossed carrot and sword in white on black.">
+          <figcaption>Monochrome mark (Twitter avatar)</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/logo-alt.webp" alt="Recovered alternate logo used by the CryptoGames directory listing.">
+          <figcaption>Directory listing logo</figcaption>
+        </figure>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Source</th><th>What it holds</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://rabbit.game">rabbit.game</a></td>
+              <td>The original game site</td>
+              <td><span class="status dead">domain dead</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://gitbook.rabbit.game">gitbook.rabbit.game</a></td>
+              <td>Official docs — source of the location &amp; economy canon</td>
+              <td><span class="status dead">domain dead · index fragments only</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://chainplay.gg/games/the-rabbit-project/">chainplay.gg</a></td>
+              <td>"NFT Game Stats" listing — genre, platform, banner art, links</td>
+              <td><span class="status trace">saved in archive/</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://cryptogames.gg/games/the-rabbit-project/">cryptogames.gg</a></td>
+              <td>Review — breeding &amp; racing canon, token, logo art</td>
+              <td><span class="status trace">saved in archive/</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://twitter.com/RabbitsOnSei">@RabbitsOnSei</a></td>
+              <td>The game's Twitter/X — names its chain: Sei</td>
+              <td><span class="status trace">dormant</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://www.coingecko.com/en/coins/the-rabbit-project">CoinGecko</a></td>
+              <td>Token indexed as <span class="mono">the-rabbit-project</span></td>
+              <td><span class="status dead">delisted / no data</span></td>
+            </tr>
+            <tr>
+              <td><a href="https://web.archive.org/web/*/rabbit.game">Wayback Machine</a></td>
+              <td>Possible snapshots of the game site &amp; docs</td>
+              <td><span class="status trace">to be checked</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p class="muted" style="font-size:.92rem">The original artwork — banner, emblem,
+        and marks — was recovered from saved copies of the two listings and lives in
+        <span class="mono">assets/</span>. It defines the revival's look: parchment,
+        ink outlines, patched cloaks, and a carrot crossed with a sword.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="wrap">
+      <p class="eyebrow">The plan · from ruin to renewal</p>
+      <h2>Revival roadmap</h2>
+      <ol class="steps">
+        <li><div><strong>Deep archive dig</strong><span>Both listings are already preserved in archive/ with the original art. Still open: Wayback snapshots of rabbit.game and the GitBook, the @RabbitsOnSei timeline, and community history.</span></div></li>
+        <li><div><strong>Story bible</strong><span>Expand this treatment into a full bible: world rules inherited from the game's mechanics, clan cultures, the theology of $CARROT, the truth behind the vanished players.</span></div></li>
+        <li><div><strong>Original visual identity</strong><span>Character designs and world art for the five locations — original work, unencumbered by the dead project's rights.</span></div></li>
+        <li><div><strong>Pilot script — "Daily Quota"</strong><span>Write E01: one perfect day of the grind, and the reveal that no one is watching.</span></div></li>
+        <li><div><strong>Pitch package</strong><span>This site, the bible, the pilot, and a two-minute animated proof-of-concept teaser.</span></div></li>
+        <li><div><strong>Partner outreach — The Rabbit's Club</strong><span>Pitch @TheRabbit_Club on co-developing the show: their Storyteller and hand-drawn cast, our recovered world and treatment.</span></div></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><strong>The Rabbit Project — Revival.</strong> A story about a world that kept
+    working after everyone left.</p>
+    <p class="mono">recovered 2026-07-11 · canon sources: gitbook.rabbit.game (via index), chainplay.gg + cryptogames.gg (archived in this repo) · original game art recovered · story original</p>
+  </div>
+</footer>
+
+</body>
+</html>
