@@ -71,18 +71,38 @@ advises them; they *want* IP-to-screen stories.
 - https://p2e.skale.network/mp
 - Fit: page is up, but the program dates from the SKALEverse push — confirm
   it's still funding before investing effort. Treat as backup.
+- **Status: application submitted (July 2026).**
+
+### 7. Web3 Foundation Grants — via the Warren Engine strategy
+- **Reassessed** (was previously ruled out as chain-shopping). The viable
+  path is not porting the game — it's funding **Warren Engine**, an
+  open-source Substrate pallet suite for autonomous idle worlds, with our
+  game as reference implementation. Substrate's `on_initialize`/`on_idle`
+  runtime hooks are the only place "the world keeps running when everyone
+  logs off" is a native primitive — genuine Polkadot differentiation, in
+  the committee's own terms.
+- **Level 1, $10k, 3 milestones.** Application: PR to
+  https://github.com/w3f/Grants-Program. ≥50% paid in DOT vesting over
+  2 years; KYC required. Draft ready: `research/w3f-application-draft.md`;
+  design doc: `engine/DESIGN.md`.
+- **Funding-split discipline**: W3F money funds only the open-source
+  engine; SKALE/Sei money funds the game product and community. No
+  overlapping deliverables — disclosed in all applications.
+- **Before submitting**: scaffold `pallet-warren` with passing tests
+  (prior work matters to their committee), and dry-run the pitch at their
+  office hours.
 
 ---
 
 ## Tier 3 — Infrastructure & discovery (not cash, still valuable)
 
-### 7. Google Cloud for Startups — Web3 program (your bookmark — still live)
+### 8. Google Cloud for Startups — Web3 program (your bookmark — still live)
 - Cloud credits (historically up to ~$200k over 2 years for funded startups,
   smaller tiers for pre-seed), technical support, partner perks. Not a cash
   grant — but it can host the site, game backend, and community infra free.
 - https://cloud.google.com/startup/web3
 
-### 8. AlphaGrowth (your bookmark — sign-in wall)
+### 9. AlphaGrowth (your bookmark — sign-in wall)
 - A grants/BD directory that tracks live programs across ecosystems. Worth
   creating the profile you started and browsing their grants database for
   deadlines this list can't see.
@@ -101,7 +121,7 @@ advises them; they *want* IP-to-screen stories.
 | Bookmark | Verdict |
 |---|---|
 | ciglop.com.co/404.html | Dead — a bare hosting-panel 404; whatever it hosted is gone. |
-| web3.foundation | Alive, but funds **Polkadot/Kusama R&D** — wrong ecosystem, wrong genre for an NFT/story revival. |
+| web3.foundation | ~~Ruled out~~ **Reassessed → Tier 2 #7** via the Warren Engine strategy (open-source Substrate engine, not a game port). |
 
 ---
 
