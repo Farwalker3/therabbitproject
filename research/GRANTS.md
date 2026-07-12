@@ -73,24 +73,43 @@ advises them; they *want* IP-to-screen stories.
   it's still funding before investing effort. Treat as backup.
 - **Status: application submitted (July 2026).**
 
-### 7. Web3 Foundation Grants — via the Warren Engine strategy
-- **Reassessed** (was previously ruled out as chain-shopping). The viable
-  path is not porting the game — it's funding **Warren Engine**, an
-  open-source Substrate pallet suite for autonomous idle worlds, with our
-  game as reference implementation. Substrate's `on_initialize`/`on_idle`
-  runtime hooks are the only place "the world keeps running when everyone
-  logs off" is a native primitive — genuine Polkadot differentiation, in
-  the committee's own terms.
-- **Level 1, $10k, 3 milestones.** Application: PR to
-  https://github.com/w3f/Grants-Program. ≥50% paid in DOT vesting over
-  2 years; KYC required. Draft ready: `research/w3f-application-draft.md`;
-  design doc: `engine/DESIGN.md`.
-- **Funding-split discipline**: W3F money funds only the open-source
-  engine; SKALE/Sei money funds the game product and community. No
-  overlapping deliverables — disclosed in all applications.
-- **Before submitting**: scaffold `pallet-warren` with passing tests
-  (prior work matters to their committee), and dry-run the pitch at their
-  office hours.
+### 7. Polkadot Open Source Developer Grants — the Warren Engine strategy
+- **History**: originally targeted at the W3F Grants Program, but on
+  2026-07-11 — application written, fork branched, one field from
+  submission — we found the program **discontinued** (their README/PR
+  template: "do not submit any new applications"). Their own alternatives
+  list names the successor: **Polkadot Open Source Developer Grants**,
+  https://github.com/PolkadotOpenSourceGrants/apply — a Polkadot
+  treasury-bounty-funded program with the same PR-based process.
+- **2026-07-12 update — the successor is closed too.** The Open Source
+  Grants bounty published its final report (59 proposals, 10 approved,
+  $220.5k paid out; leftover DOT returned to treasury) and accepts no new
+  submissions. Decentralized Futures (W3F's $30M program) completed in
+  2024. **As of now, Polkadot has no open PR-style grants program.**
+- **Remaining Polkadot routes**, in order of realism:
+  1. **Watch for a bounty renewal** — the original bounty came from a
+     forum proposal (forum.polkadot.network thread "Bounty Proposal: Open
+     Source Developer Grants Program"); a renewal referendum may follow
+     the final report. Check monthly.
+  2. **OpenGov Treasury referendum** (polkadot.polkassembly.io) — direct
+     on-chain proposal; no committee, DOT holders vote. High friction and
+     political for unknown first-time teams; realistic only after Warren
+     Engine has a working skeleton and some ecosystem visibility.
+  3. **Parachain ecosystem programs** (Moonbeam Grants, peaq, etc.) —
+     EVM-oriented mostly; weak fit for a FRAME pallet suite.
+- **The strategy itself stays sound and parked, ready**: Warren Engine —
+  open-source Substrate pallets for autonomous idle worlds (the
+  `on_initialize`/`on_idle` thesis), the on-chain substrate for The
+  Revival Project platform. Application text staged in the
+  Farwalker3/Grants-Program fork (branch `warren-engine-application`,
+  payment address filled); design doc: `engine/DESIGN.md`. Adaptable to
+  whatever program opens next in days, not weeks.
+- **Funding-split discipline** (unchanged): any Polkadot grant funds only
+  the open-source engine; SKALE/Sei money funds the game product and
+  community.
+- **Action redirect**: with Polkadot closed, the next application to
+  write is the **Sei Creator Fund** (Tier 1 #1 — still the best natural
+  fit and open).
 
 ---
 
