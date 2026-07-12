@@ -151,11 +151,15 @@ and art contractors as budgeted.
 
 ### The honest IP position
 
-The original project is abandoned: domains dead, team unreachable, no
-surviving legal entity found. We claim revival stewardship, not original
-ownership — the recovered materials are archived publicly and credited to
-the original creators, and if any original team member resurfaces, the
-door is open. The series and all new art are original work.
+Our model is acquisition-first — think of it as a buyback for worlds: dead
+projects usually still have owners, and The Revival Project's fund exists
+to find them and buy the IP properly. For The Rabbit Project specifically,
+Milestone 1's on-chain archaeology doubles as the owner search: domains
+are dead and no surviving legal entity has been found so far, so until an
+owner surfaces we claim revival stewardship, not original ownership — the
+recovered materials are archived publicly and credited to the original
+creators, and if any original team member resurfaces, the door is open
+(and the fund is ready). The series and all new art are original work.
 
 ### Links
 
